@@ -422,6 +422,16 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="phone">Telephone Contact *</label>
+                        <input type="tel" id="phone" required placeholder="Enter phone number">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" required placeholder="Enter email address">
+                    </div>
+
+                    <div class="form-group">
                         <label for="focus">Professional Focus *</label>
                         <input type="text" id="focus" required placeholder="Enter professional focus/specialization">
                     </div>
@@ -443,7 +453,7 @@
                 </div>
 
                 <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="🔍 Search by name, workplace, or focus...">
+                    <input type="text" id="searchInput" placeholder="🔍 Search by name, workplace, phone, email, or focus...">
                 </div>
 
                 <h2>Members Directory</h2>
@@ -561,6 +571,8 @@
                 name: document.getElementById('name').value.trim(),
                 residence: document.getElementById('residence').value.trim(),
                 workplace: document.getElementById('workplace').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                email: document.getElementById('email').value.trim(),
                 focus: document.getElementById('focus').value.trim(),
                 details: document.getElementById('details').value.trim(),
                 updatedAt: serverTimestamp()
@@ -613,6 +625,8 @@
                 document.getElementById('name').value = member.name;
                 document.getElementById('residence').value = member.residence;
                 document.getElementById('workplace').value = member.workplace;
+                document.getElementById('phone').value = member.phone || '';
+                document.getElementById('email').value = member.email || '';
                 document.getElementById('focus').value = member.focus;
                 document.getElementById('details').value = member.details || '';
                 
@@ -657,7 +671,9 @@
                 filteredMembers = members.filter(m => 
                     m.name.toLowerCase().includes(searchTerm) ||
                     m.workplace.toLowerCase().includes(searchTerm) ||
-                    m.focus.toLowerCase().includes(searchTerm)
+                    m.focus.toLowerCase().includes(searchTerm) ||
+                    (m.phone && m.phone.toLowerCase().includes(searchTerm)) ||
+                    (m.email && m.email.toLowerCase().includes(searchTerm))
                 );
             }
 
@@ -700,6 +716,14 @@
                             <div class="info-row">
                                 <div class="info-label">💼 Place of Work:</div>
                                 <div class="info-value">${escapeHtml(member.workplace)}</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">📞 Phone:</div>
+                                <div class="info-value"><a href="tel:${escapeHtml(member.phone || '')}" style="color: #667eea; text-decoration: none;">${escapeHtml(member.phone || 'N/A')}</a></div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">📧 Email:</div>
+                                <div class="info-value"><a href="mailto:${escapeHtml(member.email || '')}" style="color: #667eea; text-decoration: none;">${escapeHtml(member.email || 'N/A')}</a></div>
                             </div>
                             <div class="info-row">
                                 <div class="info-label">🎯 Professional Focus:</div>

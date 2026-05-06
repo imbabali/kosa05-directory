@@ -836,12 +836,14 @@
             
             let filteredMembers = members;
             if (searchTerm) {
-                filteredMembers = members.filter(m => 
-                    m.name.toLowerCase().includes(searchTerm) ||
-                    m.workplace.toLowerCase().includes(searchTerm) ||
-                    m.focus.toLowerCase().includes(searchTerm) ||
-                    (m.phone && m.phone.toLowerCase().includes(searchTerm)) ||
-                    (m.email && m.email.toLowerCase().includes(searchTerm))
+                filteredMembers = members.filter(m =>
+                    (m.name || '').toLowerCase().includes(searchTerm) ||
+                    (m.workplace || '').toLowerCase().includes(searchTerm) ||
+                    (m.focus || '').toLowerCase().includes(searchTerm) ||
+                    (m.phone || '').toLowerCase().includes(searchTerm) ||
+                    (m.email || '').toLowerCase().includes(searchTerm) ||
+                    (m.legacyAddress || '').toLowerCase().includes(searchTerm) ||
+                    (m.legacyBusinessDetails || '').toLowerCase().includes(searchTerm)
                 );
             }
 
@@ -880,11 +882,11 @@
                         <div class="member-info">
                             <div class="info-row">
                                 <div class="info-label">🏠 Residence:</div>
-                                <div class="info-value">${escapeHtml(member.residence)}</div>
+                                <div class="info-value">${escapeHtml(member.residence || member.legacyAddress || 'N/A')}</div>
                             </div>
                             <div class="info-row">
                                 <div class="info-label">💼 Place of Work:</div>
-                                <div class="info-value">${escapeHtml(member.workplace)}</div>
+                                <div class="info-value">${escapeHtml(member.workplace || member.legacyBusinessDetails || 'N/A')}</div>
                             </div>
                             <div class="info-row">
                                 <div class="info-label">📞 Phone:</div>
@@ -896,7 +898,7 @@
                             </div>
                             <div class="info-row">
                                 <div class="info-label">🎯 Professional Focus:</div>
-                                <div class="info-value">${escapeHtml(member.focus)}</div>
+                                <div class="info-value">${escapeHtml(member.focus || 'N/A')}</div>
                             </div>
                             ${member.details ? `
                                 <div class="info-row" style="grid-template-columns: 1fr;">
